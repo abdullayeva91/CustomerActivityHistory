@@ -11,16 +11,12 @@ public class Customer {
     public Customer(int id, String name) {
         this.id = id;
         this.name = name;
-        this.activities= new ArrayList<>();
-
+        this.activities = new ArrayList<>();
     }
 
+    // --- Getters and Setters ---
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -32,20 +28,16 @@ public class Customer {
     }
 
     public List<Activity> getActivities() {
-        return activities;
+        return new ArrayList<>(activities); // Təhlükəsizlik üçün siyahının kopyasını qaytarırıq.
     }
 
-    public void addActivities(Activity activity) {
-
+    // DÜZƏLİŞ: Metodun adı daha anlaşıqlı hala gətirildi.
+    public void addActivity(Activity activity) {
         this.activities.add(activity);
     }
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", activities=" + activities +
-                '}';
+        return "Müştəri [ID=" + id + ", Ad='" + name + "']";
     }
 }

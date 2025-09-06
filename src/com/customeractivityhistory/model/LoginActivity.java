@@ -26,6 +26,15 @@ public class LoginActivity extends Activity{
         return browserType;
     }
 
+
+    //  Məlumatları fayla yazmaq üçün unikal format.
+    @Override
+    public String toFileString() {
+        return String.format("LOGIN|%s|%s|%s|%s|%s", getDescription(), getTimestamp(), getIpAddress(), getDevice(), getBrowserType());
+    }
+
+
+
     @Override
     public String toString() {
         return "LoginActivity{" +
