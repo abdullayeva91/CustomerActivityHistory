@@ -32,4 +32,9 @@ private String productName;
     public String toString() {
         return super.toString()+ "Product: "+productName+ "Amount: $ "+amount;
     }
+
+    @Override
+    public String toFileString() {
+        return String.format("PURCHASE|%s|%s|%f|%s", getDescription(), getTimestamp(), amount, productName);
+    }
 }

@@ -9,31 +9,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityManager <T extends Activity>{
+    private static int nextId=1;
     private List<T> activities=new ArrayList<>();
-    private List<Customer>customer=new ArrayList<>();
+    private List<Customer>customers=new ArrayList<>();
 
-    public void addCustomer(Customer newcustomer)throws CustomerNotFoundException {
-      if (newcustomer==null){
-          throw new CustomerNotFoundException("Customer cannot be null");
-      }
-      customer.add(newcustomer);
+    public Customer addCustomer(String name) {
+        Customer newCustomer = new Customer(nextId, name);
+        customers.add(newCustomer);
+        nextId++;
+        return newCustomer;
     }
 
-    public Customer findCustomerById(String customerId) throws CustomerNotFoundException{
-        for (Customer c : customer){
-            if (String.valueOf(c.getId()).equals(customerId)) {
-                return c;
+    public Customer findCustomerById(int customerId) throws CustomerNotFoundException{
+        for (Customer customer : customers){
+            if (customer.getId()==customerId) {
+                return customer;
             }
         }
-        throw new CustomerNotFoundException("Customer with id"+customerId+" not found");
+        throw new CustomerNotFoundException("ID " + customerId + " olan müştəri tapılmadı.");
     }
     public void addActivity(Customer customer, T activity) throws CustomerNotFoundException {
-        if (customer == null) {
-            throw new CustomerNotFoundException("Customer not found!");
-        }
-        customer.addActivities(activity);
-        activities.add(activity);
+        customer.addActivity(activity);
     }
+
+    public List<Customer> getAllCustomers() {
+        return new ArrayList<>(customers);
+    }
+
+
 
         public List<T> getAllActivities() throws HistoryNotFoundException {
        if (activities.isEmpty()){
@@ -61,5 +64,22 @@ public class ActivityManager <T extends Activity>{
     }
     public int countActivities(){
         return activities.size();
+    }
+    public void loadData(List<Customer> loadedCustomers) {
+        if (loadedCustomers != null && !loadedCustomers.isEmpty()) {
+            this.customers = loadedCustomers;
+
+
+            int maxId = 0;
+
+            for (Customer customer : loadedCustomers) {
+
+                if (customer.getId() > maxId) {
+
+                    maxId = customer.getId();
+                }
+            }
+            nextId = maxId + 1;
+        }
     }
 }

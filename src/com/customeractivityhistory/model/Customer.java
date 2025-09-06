@@ -32,7 +32,10 @@ public class Customer {
     }
 
     public List<Activity> getActivities() {
-        return activities;
+        return new ArrayList<>(activities);
+    }
+    public void addActivity(Activity activity){
+        this.activities.add(activity);
     }
 
     public void addActivities(Activity activity) {
@@ -48,4 +51,9 @@ public class Customer {
                 ", activities=" + activities +
                 '}';
     }
-}
+
+
+
+    }
+
+

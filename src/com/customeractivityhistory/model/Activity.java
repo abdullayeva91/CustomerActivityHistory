@@ -34,4 +34,8 @@ public abstract class Activity {
                 ", timestamp=" + timestamp +
                 '}';
     }
+
+    public String toFileString() {
+        return null;
+    }
 }
