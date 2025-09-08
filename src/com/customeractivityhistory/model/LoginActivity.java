@@ -28,7 +28,7 @@ public class LoginActivity extends Activity{
 
     @Override
     public String toFileString() {
-            return String.format("LOGIN|%s|%s|%s|%s|%s", getDescription(), getTimestamp(), getIpAddress(), getDevice(), getBrowserType());
+            return String.format("LOGIN|%s|%s|%s|%s|%s", getDescription(), getTimestamp(), getTimestamp(),getIpAddress(), getDevice(), getBrowserType());
     }
 
     @Override

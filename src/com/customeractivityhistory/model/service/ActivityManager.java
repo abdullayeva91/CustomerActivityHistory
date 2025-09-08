@@ -28,7 +28,15 @@ public class ActivityManager <T extends Activity>{
         }
         throw new CustomerNotFoundException("ID " + customerId + " olan müştəri tapılmadı.");
     }
-    public void addActivity(Customer customer, T activity) throws CustomerNotFoundException {
+    public boolean removeCustomer(int customerId) throws CustomerNotFoundException {
+        Customer customerToDelete=findCustomerById(customerId);
+        if (customerToDelete !=null){
+            return customers.remove(customerToDelete);
+        }
+        return false;
+    }
+
+    public void addActivity(Customer customer, T activity) {
         customer.addActivity(activity);
     }
 
@@ -65,6 +73,8 @@ public class ActivityManager <T extends Activity>{
     public int countActivities(){
         return activities.size();
     }
+
+
     public void loadData(List<Customer> loadedCustomers) {
         if (loadedCustomers != null && !loadedCustomers.isEmpty()) {
             this.customers = loadedCustomers;

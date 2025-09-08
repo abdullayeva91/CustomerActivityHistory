@@ -30,7 +30,7 @@ private String productName;
 
     @Override
     public String toString() {
-        return super.toString()+ "Product: "+productName+ "Amount: $ "+amount;
+        return super.toString()+ String.format(" (Məhsul: %s, Məbləğ: %.2f AZN)", productName, amount);
     }
 
     @Override

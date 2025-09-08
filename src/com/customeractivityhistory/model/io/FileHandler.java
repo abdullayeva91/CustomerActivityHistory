@@ -65,12 +65,8 @@ public class FileHandler {
         Customer currentCustomer = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
-            while (true) {
-                try {
-                    if (!((line = reader.readLine()) != null)) break;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+
+            while ((line = reader.readLine()) != null){
                 String[] parts = line.split(DELIMITER);
                 String type = parts[0];
 
@@ -97,8 +93,10 @@ public class FileHandler {
                         break;
                 }
             }
-            return customers;
         }
+            return customers;
+
     }
 }
+
 

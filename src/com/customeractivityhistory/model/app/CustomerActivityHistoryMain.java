@@ -22,15 +22,12 @@ public class CustomerActivityHistoryMain {
 
     public static void main(String[] args) {
         System.out.println("\n");
-        System.out.println("████████████████████████████████████████████████████████");
-        System.out.println("██                                                    ██");
-        System.out.println("██            MÜŞTƏRİ FƏALİYYƏT TARİXÇƏSİ             ██");
-        System.out.println("██                                                    ██");
-        System.out.println("██              💼 İDARƏETMƏ SİSTEMİ 💼               ██");
-        System.out.println("██                                                    ██");
-        System.out.println("██               🌟 XOŞ GƏLMİŞSİNİZ! 🌟               ██");
-        System.out.println("██                                                    ██");
-        System.out.println("████████████████████████████████████████████████████████");
+        System.out.println("------------------------------------------------------");
+        System.out.println("|            MÜŞTƏRİ FƏALİYYƏT TARİXÇƏSİ             |");
+        System.out.println("|              💼 İDARƏETMƏ SİSTEMİ 💼               |");
+        System.out.println("|               🌟 XOŞ GƏLMİŞSİNİZ! 🌟               |");
+        System.out.println("______________________________________________________");
+
 
         loadDataFromFile();
 
@@ -51,6 +48,9 @@ public class CustomerActivityHistoryMain {
                         handleViewHistory();
                         break;
                     case 4:
+                        handleDeleteCustomer();
+                        break;
+                    case 5:
                         saveDataToFile();
                         System.out.println("Bütün məlumatlar saxlanıldı. Proqramdan çıxılır...");
                         scanner.close();
@@ -64,12 +64,14 @@ public class CustomerActivityHistoryMain {
             }
         }
     }
+
     private static void showMenu() {
         System.out.println("\n----- ANA MENYU -----");
         System.out.println("1. Yeni müştəri əlavə et");
         System.out.println("2. Müştəriyə fəaliyyət əlavə et");
         System.out.println("3. Müştərinin tarixçəsinə bax");
-        System.out.println("4. Çıxış (və məlumatları saxlamaq)");
+        System.out.println("4. Müsterini sil");
+        System.out.println("5. Çıxış (və məlumatları saxlamaq)");
         System.out.print("Seçiminizi daxil edin: ");
     }
 
@@ -158,7 +160,62 @@ public class CustomerActivityHistoryMain {
             System.out.println("XƏTA: " + e.getMessage());
         }
     }
+    public static void handleDeleteCustomer() {
 
+        List<Customer> allCustomers = activityActivityManager.getAllCustomers();
+        if (allCustomers.isEmpty()) {
+            System.out.println(" Silinəcək müştəri yoxdur. Əvvəlcə müştəri əlavə edin.");
+            return;
+        }
+
+        System.out.println(" MÖVCUD MÜŞTƏRİLƏR:");
+        System.out.println("----------------------------");
+        for (Customer customer : allCustomers) {
+            System.out.printf("ID: %d - %s (Fəaliyyət sayı: %d) ",
+                    customer.getId(),
+                    customer.getName(),
+                    customer.getActivities().size());
+        }
+        System.out.println("Silmək istədiyiniz müştərinin ID-sini daxil edin: ");
+        try {
+            int customerID = scanner.nextInt();
+            scanner.nextLine();
+            Customer customerToDelete = null;
+            for (Customer customer : allCustomers) {
+                if (customer.getId() == customerID) {
+                    customerToDelete = customer;
+                    break;
+                }
+            }
+            if (customerToDelete == null) {
+                System.out.println("Bu ID- ilə müştəri tapılmadı");
+                return;
+            }
+            System.out.println("Ad" + customerToDelete.getName() + "ID" + customerToDelete.getId() + "Fəaliyyət"
+                    + customerToDelete.getActivities());
+            System.out.println("Silmək istədiyinizə əminsiz? (Hə/yox): ");
+            String confirmation = scanner.nextLine().trim().toLowerCase();
+            if (confirmation.equals("Hə")|| confirmation.equals("hə")||confirmation.equals("Yox")||confirmation.equals("yox")) {
+                boolean deleted = activityActivityManager.removeCustomer(customerID);
+                if (deleted) {
+                    System.out.println("Müştəri uğurla silindi");
+
+                } else {
+                    System.out.println("Silərkən xəta baş verdi");
+                }
+            } else {
+                System.out.println("Silmə əməliyyatı ləğv edildi");
+            }
+            saveDataToFile();
+
+        } catch (InputMismatchException e) {
+            System.out.println("XƏTA: ID rəqəm olmalıdır.");
+            scanner.nextLine();
+        }catch (CustomerNotFoundException e){
+            System.out.println("Xəta"+e.getMessage());
+        }
+
+    }
 
     private static void loadDataFromFile() {
         try {
