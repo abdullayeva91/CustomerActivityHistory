@@ -29,7 +29,7 @@ public class CustomerActivityHistoryMain {
         System.out.println("______________________________________________________");
 
 
-        loadDataFromFile();
+         loadDataFromFile();
 
         while (true) {
             showMenu();
@@ -195,7 +195,7 @@ public class CustomerActivityHistoryMain {
                     + customerToDelete.getActivities());
             System.out.println("Silmək istədiyinizə əminsiz? (Hə/yox): ");
             String confirmation = scanner.nextLine().trim().toLowerCase();
-            if (confirmation.equals("Hə")|| confirmation.equals("hə")||confirmation.equals("Yox")||confirmation.equals("yox")) {
+            if (confirmation.equalsIgnoreCase("Hə")) {
                 boolean deleted = activityActivityManager.removeCustomer(customerID);
                 if (deleted) {
                     System.out.println("Müştəri uğurla silindi");
@@ -206,7 +206,6 @@ public class CustomerActivityHistoryMain {
             } else {
                 System.out.println("Silmə əməliyyatı ləğv edildi");
             }
-            saveDataToFile();
 
         } catch (InputMismatchException e) {
             System.out.println("XƏTA: ID rəqəm olmalıdır.");

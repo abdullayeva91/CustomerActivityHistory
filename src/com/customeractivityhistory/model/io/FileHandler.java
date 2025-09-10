@@ -66,7 +66,7 @@ public class FileHandler {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
 
-            while ((line = reader.readLine()) != null){
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(DELIMITER);
                 String type = parts[0];
 
@@ -87,16 +87,20 @@ public class FileHandler {
                         break;
                     case "PURCHASE":
                         if (currentCustomer != null) {
-                            PurchaseActivity purchase = new PurchaseActivity(parts[1], LocalDateTime.parse(parts[2]), Double.parseDouble(parts[3]), parts[4]);
+                            String priceString = parts[3].replace(',', '.');
+                            PurchaseActivity purchase = new PurchaseActivity(parts[1], LocalDateTime.parse(parts[2]), Double.parseDouble(priceString), parts[4]);
                             currentCustomer.addActivity(purchase);
                         }
                         break;
                 }
             }
         }
-            return customers;
+        return customers;
 
     }
+
+
 }
+
 
 
