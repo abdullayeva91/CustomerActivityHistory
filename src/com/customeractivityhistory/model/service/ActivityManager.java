@@ -45,11 +45,11 @@ public class ActivityManager <T extends Activity>{
 
 
 
-        public List<T> getAllActivities() throws HistoryNotFoundException {
-            List<T> allActivities = new ArrayList<>();
+        public List<Activity> getAllActivities() throws HistoryNotFoundException {
+            List<Activity> allActivities = new ArrayList<>();
 
             for (Customer customer : customers) {
-                allActivities.addAll((List<T>) customer.getActivities());
+                allActivities.addAll( customer.getActivities());
             }
 
             if (allActivities.isEmpty()) {
@@ -58,14 +58,14 @@ public class ActivityManager <T extends Activity>{
             return allActivities;
     }
 
-    public List<T> getActivitiesByCustomer(Customer customer) throws CustomerNotFoundException, HistoryNotFoundException {
+    public List<Activity> getActivitiesByCustomer(Customer customer) throws CustomerNotFoundException, HistoryNotFoundException {
         if (customer== null){
             throw new CustomerNotFoundException("Musteri tapilmadi");
         }
         if (customer.getActivities().isEmpty()){
             throw new HistoryNotFoundException("Musteri tarixcesi tapilmadi");
         }
-        return (List<T>) customer.getActivities();
+        return customer.getActivities();
     }
     public void removeActivity(T activity)throws HistoryNotFoundException{
         boolean found = false;
