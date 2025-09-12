@@ -10,7 +10,6 @@ import java.util.List;
 
 public class ActivityManager <T extends Activity>{
     private static int nextId=1;
-    private List<T> activities=new ArrayList<>();
     private List<Customer>customers=new ArrayList<>();
 
     public Customer addCustomer(String name) {
@@ -47,10 +46,16 @@ public class ActivityManager <T extends Activity>{
 
 
         public List<T> getAllActivities() throws HistoryNotFoundException {
-       if (activities.isEmpty()){
-           throw new HistoryNotFoundException("Hec bir tarixce tapilmadi");
-       }
-       return activities;
+            List<T> allActivities = new ArrayList<>();
+
+            for (Customer customer : customers) {
+                allActivities.addAll((List<T>) customer.getActivities());
+            }
+
+            if (allActivities.isEmpty()) {
+                throw new HistoryNotFoundException("Heç bir tarixçə tapılmadı");
+            }
+            return allActivities;
     }
 
     public List<T> getActivitiesByCustomer(Customer customer) throws CustomerNotFoundException, HistoryNotFoundException {
@@ -60,18 +65,33 @@ public class ActivityManager <T extends Activity>{
         if (customer.getActivities().isEmpty()){
             throw new HistoryNotFoundException("Musteri tarixcesi tapilmadi");
         }
-        return activities;
+        return (List<T>) customer.getActivities();
     }
     public void removeActivity(T activity)throws HistoryNotFoundException{
-        if (!activities.remove(activity)){
-            throw new HistoryNotFoundException("Silinecek musteri tapilmadi");
+        boolean found = false;
+
+        for (Customer customer : customers) {
+            if (customer.getActivities().remove(activity)) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw new HistoryNotFoundException("Silinəcək fəaliyyət tapılmadı");
         }
     }
-    public void clearActivities(){
-        activities.clear();
+    public void clearActivities() {
+        for (Customer customer : customers) {
+            customer.getActivities().clear();
+        }
     }
     public int countActivities(){
-        return activities.size();
+        int totalCount = 0;
+        for (Customer customer : customers) {
+            totalCount += customer.getActivities().size();
+        }
+        return totalCount;
     }
 
 
